@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 # GitHub configuration
 GITHUB_TOKEN = os.environ.get('GITHUB_TOKEN')
 GITHUB_REPO = os.environ.get('GITHUB_REPO')
-WORKFLOW_FILE = os.environ.get('WORKFLOW_FILE ')
+WORKFLOW_FILE = os.environ.get('WORKFLOW_FILE')
 TENANT = os.environ.get('TENANT')
 PROJECT = os.environ.get('PROJECT')
 
