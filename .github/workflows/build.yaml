@@ -1,0 +1,19 @@
+name: Build and Deploy Vue.js App
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main  # Set to the branch name you use for releases
+    tags: ['v*.*.*']
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  call-docker-build:
+    uses: ethdevops/workflows/.github/workflows/basic-docker-build.yaml@main
+    secrets:
+      docker_registry_user: ${{ secrets.DOCKER_REGISTRY_USER }}
+      docker_registry_password: ${{ secrets.DOCKER_REGISTRY_SECRET }}
+ 
