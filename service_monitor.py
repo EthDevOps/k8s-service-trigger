@@ -14,10 +14,10 @@ logger = logging.getLogger(__name__)
 
 # GitHub configuration
 GITHUB_TOKEN = os.environ.get('GITHUB_TOKEN')
-GITHUB_REPO = "ethdevops/internal-stack-iac"
-WORKFLOW_FILE = "ansible.yaml"
-TENANT = "ethquokkaops"
-PROJECT = "colo-loadbalancers"
+GITHUB_REPO = os.environ.get('GITHUB_REPO')
+WORKFLOW_FILE = os.environ.get('WORKFLOW_FILE ')
+TENANT = os.environ.get('TENANT')
+PROJECT = os.environ.get('PROJECT')
 
 def trigger_github_workflow(gh_token, event_type):
     """
