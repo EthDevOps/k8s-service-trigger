@@ -1,4 +1,4 @@
-name: Build and Deploy Vue.js App
+name: Build and Deploy Docker Image 
 
 on:
   workflow_dispatch:
