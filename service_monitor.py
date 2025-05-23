@@ -21,9 +21,19 @@ WORKFLOW_FILE = os.environ.get('WORKFLOW_FILE')
 TENANT = os.environ.get('TENANT')
 PROJECT = os.environ.get('PROJECT')
 
-# Store the last trigger time for each service
-global last_trigger_global = 0
+# Store the last trigger time globally
+last_trigger_global = 0
 DEBOUNCE_INTERVAL = 180  # 3 minutes in seconds
+
+def set_last_trigger(timestamp: float) -> None:
+    """Update the last trigger timestamp"""
+    global last_trigger_global
+    last_trigger_global = timestamp
+
+def get_last_trigger() -> float:
+    """Get the last trigger timestamp"""
+    global last_trigger_global
+    return last_trigger_global
 
 def trigger_github_workflow(gh_token: str, event_type: str, service_key: str) -> bool:
     """
@@ -46,11 +56,12 @@ def trigger_github_workflow(gh_token: str, event_type: str, service_key: str) ->
         return False
 
     current_time = time.time()
-    last_trigger_time = last_trigger_global
+    last_trigger_time = get_last_trigger()
     
     # Check if enough time has passed since the last trigger
-    if current_time - last_trigger_time < DEBOUNCE_INTERVAL:
-        logger.info(f"Skipping workflow trigger for {service_key} due to debouncing (last trigger was {int(current_time - last_trigger_time)} seconds ago)")
+    time_since_last = current_time - last_trigger_time
+    if time_since_last < DEBOUNCE_INTERVAL:
+        logger.info(f"Skipping workflow trigger for {service_key} due to debouncing (last trigger was {int(time_since_last)} seconds ago)")
         return False
 
     try:
@@ -91,7 +102,7 @@ def trigger_github_workflow(gh_token: str, event_type: str, service_key: str) ->
                 inputs=inputs
             )
             # Update the last trigger time only on successful dispatch
-            last_trigger_global = current_time
+            set_last_trigger(current_time)
             logger.info(f"Successfully triggered workflow {workflow.path} for event: {event_type} (service: {service_key})")
             return True
             
