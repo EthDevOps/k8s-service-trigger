@@ -78,7 +78,7 @@ def trigger_github_workflow(gh_token: str, event_type: str, service_key: str) ->
 
         # Prepare inputs
         inputs = {
-            "tenant": TENANT or "",
+            "team": TENANT or "",
             "project": PROJECT or ""
         }
         
